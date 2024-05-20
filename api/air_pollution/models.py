@@ -2,15 +2,12 @@ from typing import Optional
 from sqlalchemy import ForeignKey, Integer, String, DateTime, Numeric
 from sqlalchemy.orm import Mapped, mapped_column
 from datetime import datetime
-from sqlalchemy.ext.declarative import DeclarativeBase
+
+from .db_connection import Base
 
 """
 Specification of models for using database.
 """
-
-class Base(DeclarativeBase):
-    ...
-
 
 class City(Base):
     """
