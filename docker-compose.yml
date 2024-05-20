@@ -1,62 +1,72 @@
-version: '3.8'
+version: '3.9'
 
 services:
   db:
     image: nouchka/sqlite3
     container_name: db
     volumes:
-      - db_data:/db
+      - db_data:/var/lib/sqlite3
+    networks:
+      - backend
 
-  data_loader:
+  data_processing:
     build:
       context: ./data_processing
-    container_name: data_loader
-    volumes:
-      - db_data:/db
+    container_name: data_processing
     environment:
-      API_KEY: ${API_KEY}
+      - API_KEY=001c2554cc486bf50b3c05b32d468e1b
     depends_on:
       - db
+    volumes:
+      - ./data_processing:/app
+    networks:
+      - backend
 
   api:
     build:
       context: ./api
     container_name: api
-    volumes:
-      - db_data:/db
-    ports:
-      - "8000:80"
     depends_on:
       - db
-
-  grafana:
-    image: grafana/grafana:latest
-    container_name: grafana
-    ports:
-      - "3000:3000"
     volumes:
-      - grafana_data:/var/lib/grafana
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-    depends_on:
-      - db
-
-  mkdocs:
-    build:
-      context: ./docs
-    container_name: mkdocs
+      - ./api:/app
     ports:
-      - "8001:8000"
+      - "8000:8000"
+    networks:
+      - backend
 
   frontend:
     build:
       context: ./frontend
     container_name: frontend
     ports:
-      - "3001:80"
-    depends_on:
-      - api
+      - "3000:3000"
+    networks:
+      - frontend
+
+  web_documentation:
+    build:
+      context: ./docs
+    container_name: web_documentation
+    ports:
+      - "8001:8000"
+    networks:
+      - backend
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3001:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - backend
 
 volumes:
   db_data:
   grafana_data:
+
+networks:
+  backend:
+  frontend:
