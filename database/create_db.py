@@ -26,7 +26,6 @@ class DatabaseFiller:
         self.session = Session()
         self.uri = "http://api.openweathermap.org"
         self.api_key = os.getenv("API_KEY")
-        self.api_key = "001c2554cc486bf50b3c05b32d468e1b"
         self.cities = ["Prague", "London", "Paris", "Berlin", "Rome"]
 
     def fill_all_tables(self) -> None:
