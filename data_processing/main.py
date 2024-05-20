@@ -11,7 +11,8 @@ calculate basic statistics and save data into database.
 """
 
 if __name__ == "__main__":
-    db_session = Session = sessionmaker(bind=engine)
+    Session = sessionmaker(bind=engine)
+    db_session = Session()
     scraper = Scraper(db_session)
     data = Data(db_session)
 
