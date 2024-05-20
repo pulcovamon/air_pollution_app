@@ -10,5 +10,5 @@ EXPOSE 80
 
 ENV DATABASE_URL="sqlite:///./db/air_quality.db"
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
