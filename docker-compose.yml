@@ -48,6 +48,15 @@ services:
     ports:
       - "8001:8000"
 
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    ports:
+      - "3001:80"
+    depends_on:
+      - api
+
 volumes:
   db_data:
   grafana_data:
