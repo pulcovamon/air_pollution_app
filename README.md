@@ -6,4 +6,3 @@
 - **api**: service, which exposes endpoints for getting data from database
 - **frontend**: react app - *not completed*
 - **docs**: web documentation using MkDocs - *not completed*
-All services contain Dockerfile
