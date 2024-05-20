@@ -3,6 +3,10 @@ import os
 
 from .models import City, Category, AirQualityIndex, Parameter, Statistics, CityComparison
 
+"""
+Web scraping - getting data from OpenWeather API"
+"""
+
 class Scraper:
     uri = "http://api.openweathermap.org/data/2.5/air_pollution"
     api_key = os.getenv("API_KEY")
@@ -31,20 +35,19 @@ class Scraper:
             response.raise_for_status()
         return response.json()["list"][0]
 
-    def get_parameter(self, city: City, parameter: str) -> float:
+    def get_parameters(self, city: City) -> dict:
         """
         Get current value of a pollutant in the given city.
 
         Args:
             city (City): city object with coordinates
-            parameter (str): name of pollutant
 
         Returns:
-            float: parameter value
+            dict: parameter value
         """
         if city.name not in self.data:
-            self.data = self._request_api(city)
-        return data[parameter]
+            self.data[city.name] = self._request_api(city)
+        return data[city]["parameters"]
 
     def get_aqi(self, city: City) -> float:
         """
@@ -57,8 +60,8 @@ class Scraper:
             float: AQI value
         """
         if city.name not in self.data:
-            self.data = self._request_api(city)
-        return data["main"]["aqi"]
+            self.data[city.name] = self._request_api(city)
+        return data["city"]["main"]["aqi"]
 
     def get_datetime(self, city: City) -> int:
         """
@@ -72,8 +75,8 @@ class Scraper:
             int: unix timestamp
         """
         if city.name not in self.data:
-            self.data = self._request_api(city)
-        return data["dt"]
+            self.data[city.name] = self._request_api(city)
+        return data[city]["dt"]
 
     def clear_data(self):
         """
