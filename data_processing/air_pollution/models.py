@@ -84,6 +84,5 @@ class CityComparison(Base):
     __tablename__ = "city_comparison"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    pollutant: Mapped[str] = mapped_column(String(5))
     city_id: Mapped[int] = mapped_column(ForeignKey("city.id"))
     index: Mapped[int] = mapped_column()
