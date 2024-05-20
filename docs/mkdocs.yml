@@ -1,6 +1,9 @@
 site_name: My Project Documentation
 nav:
   - Home: index.md
-  - About: about.md
+  - API Documentation: api.md
+  - Data Processing: data_processing.md
+  - Database: database.md
+  - Frontend: frontend.md
 theme:
   name: material
