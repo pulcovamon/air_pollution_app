@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  data_loader:
+    build: ./data_processing
+    volumes:
+      - db_data:/data
+    environment:
+      - SQLALCHEMY_DATABASE_URL=sqlite:///data/air_quality.db
+
+  rest_api:
+    build: ./api
+    volumes:
+      - db_data:/data
+    environment:
+      - SQLALCHEMY_DATABASE_URL=sqlite:///data/air_quality.db
+    ports:
+      - "8000:8000"
+    depends_on:
+      - data_loader
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - rest_api
+
+  documentation:
+    build: ./documentation
+    ports:
+      - "8080:8080"
+    depends_on:
+      - data_loader
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./database/prometheus:/etc/prometheus/
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3001:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+
+volumes:
+  db_data:
+  grafana_data:
