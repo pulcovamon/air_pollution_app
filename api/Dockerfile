@@ -4,9 +4,11 @@ WORKDIR /app
 
 COPY . /app
 
+RUN pip install --upgrade pip
+
 RUN pip install -r requirements.txt
 
-EXPOSE 80
+EXPOSE 8000
 
 ENV DATABASE_URL="sqlite:///./db/air_quality.db"
 
