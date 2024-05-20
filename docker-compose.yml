@@ -1,55 +1,52 @@
 version: '3.8'
 
 services:
+  db:
+    image: nouchka/sqlite3
+    container_name: db
+    volumes:
+      - db_data:/db
+
   data_loader:
-    build: ./data_processing
+    build:
+      context: ./data_processing
+    container_name: data_loader
     volumes:
-      - db_data:/data
+      - db_data:/db
     environment:
-      - SQLALCHEMY_DATABASE_URL=sqlite:///data/air_quality.db
+      API_KEY: ${API_KEY}
+    depends_on:
+      - db
 
-  rest_api:
-    build: ./api
+  api:
+    build:
+      context: ./api
+    container_name: api
     volumes:
-      - db_data:/data
-    environment:
-      - SQLALCHEMY_DATABASE_URL=sqlite:///data/air_quality.db
+      - db_data:/db
     ports:
-      - "8000:8000"
+      - "8000:80"
     depends_on:
-      - data_loader
-
-  frontend:
-    build: ./frontend
-    ports:
-      - "3000:3000"
-    depends_on:
-      - rest_api
-
-  documentation:
-    build: ./documentation
-    ports:
-      - "8080:8080"
-    depends_on:
-      - data_loader
-
-  prometheus:
-    image: prom/prometheus
-    volumes:
-      - ./database/prometheus:/etc/prometheus/
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-    ports:
-      - "9090:9090"
+      - db
 
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:latest
+    container_name: grafana
     ports:
-      - "3001:3000"
+      - "3000:3000"
     volumes:
       - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
     depends_on:
-      - prometheus
+      - db
+
+  mkdocs:
+    build:
+      context: ./docs
+    container_name: mkdocs
+    ports:
+      - "8001:8000"
 
 volumes:
   db_data:
