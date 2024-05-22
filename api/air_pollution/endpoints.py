@@ -10,8 +10,8 @@ from . import schemas
 app = APIRouter()
 
 @app.get("/cities", response_model=List[schemas.City])
-async def read_cities(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    cities = db.query(models.City).offset(skip).limit(limit).all()
+async def read_cities(db: Session = Depends(get_db)):
+    cities = db.query(models.City)
     return cities
 
 @app.get("/air_quality_index/{city_id}", response_model=List[schemas.AirQualityIndex])

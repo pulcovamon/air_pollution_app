@@ -17,6 +17,16 @@ services:
     networks:
       - air_pollution
 
+  db_creation:
+    build: ./database
+    container_name: database_creation
+    environment:
+      - API_KEY=001c2554cc486bf50b3c05b32d468e1b
+    depends_on:
+      - db
+    networks:
+      - air_pollution
+
   data_processing:
     build: ./data_processing
     container_name: data_processing
