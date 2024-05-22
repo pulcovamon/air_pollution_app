@@ -31,7 +31,7 @@ export async function fetchCities() {
   }
 
   export async function fetchCityComparison() {
-    const response = await fetch(`0.0.0.0:8000/air_pollution_api/city_comparison/${cityId}`);
+    const response = await fetch("0.0.0.0:8000/air_pollution_api/city_comparison/");
     if (!response.ok) {
         throw new Error(`City comparison is not avaliable.`);
     }

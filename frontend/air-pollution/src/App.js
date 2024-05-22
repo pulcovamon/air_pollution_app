@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchCities, fetchAirQualityIndex, fetchAirQualityParameters, fetchStatistics, fetchCityComparison } from './fetch';
-import ChartComponent from './ChartComponent';
+import ChartComponent from './ChartComponents';
 
 export default function App() {
   const [cities, setCities] = useState([]);
