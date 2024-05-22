@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3'
 
 services:
   db:
@@ -10,8 +10,7 @@ services:
       - backend
 
   data_processing:
-    build:
-      context: ./data_processing
+    build: ./data_processing
     container_name: data_processing
     environment:
       - API_KEY=001c2554cc486bf50b3c05b32d468e1b
@@ -23,49 +22,19 @@ services:
       - backend
 
   api:
-    build:
-      context: ./api
+    build: ./api
     container_name: api
     depends_on:
       - db
     volumes:
       - ./api:/app
     ports:
-      - "8000:8000"
-    networks:
-      - backend
-
-  frontend:
-    build:
-      context: ./frontend
-    container_name: frontend
-    ports:
-      - "3000:3000"
-    networks:
-      - frontend
-
-  web_documentation:
-    build:
-      context: ./docs
-    container_name: web_documentation
-    ports:
-      - "8001:8000"
-    networks:
-      - backend
-
-  grafana:
-    image: grafana/grafana
-    container_name: grafana
-    ports:
-      - "3001:3000"
-    volumes:
-      - grafana_data:/var/lib/grafana
+      - "5001:80"
     networks:
       - backend
 
 volumes:
   db_data:
-  grafana_data:
 
 networks:
   backend:

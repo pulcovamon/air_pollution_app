@@ -1,12 +1,18 @@
-FROM python:3.12
+FROM ubuntu:22.04
+
+RUN apt-get update 
+
+RUN apt-get -y install cron
+
+RUN apt-get install -y python3
+
+RUN apt-get install -y python3-pip
 
 WORKDIR /app
 
 COPY . /app
 
-RUN pip install --upgrade pip
-
-RUN pip install -r requirements.txt
+RUN python3 -m pip install -r requirements.txt
 
 # Add crontab file in the cron directory
 ADD crontab /etc/cron.d/data_processing_cron
