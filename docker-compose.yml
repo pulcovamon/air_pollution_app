@@ -29,7 +29,7 @@ services:
     volumes:
       - ./api:/app
     ports:
-      - "5001:80"
+      - "5001:5050"
     networks:
       - backend
 
