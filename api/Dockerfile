@@ -10,8 +10,6 @@ RUN pip install -r requirements.txt
 
 EXPOSE 8000
 
-ENV DATABASE_URL="sqlite:///./db/air_quality.db"
-
 VOLUME [ "/app" ]
 
 CMD ["python", "main.py"]

@@ -2,10 +2,18 @@ version: '3'
 
 services:
   db:
-    image: nouchka/sqlite3
+    image: mysql:8.0.33
     container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: root 
+      MYSQL_DATABASE: AirQuality
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+    ports:
+      - "6033:3306"
+
     volumes:
-      - db_data:/var/lib/sqlite3
+      - "db_data:/var/lib/mysql"
     networks:
       - air_pollution
 
@@ -29,7 +37,7 @@ services:
     volumes:
       - ./api:/app
     ports:
-      - "127.0.0.1:8000:5050"
+      - "127.0.0.1:8000:8000"
     networks:
       - air_pollution
     expose:
