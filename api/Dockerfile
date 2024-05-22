@@ -14,5 +14,5 @@ ENV DATABASE_URL="sqlite:///./db/air_quality.db"
 
 VOLUME [ "/app" ]
 
-CMD ["fastapi", "run", "main.py", "--port", "8000", "--reload"]
+CMD ["python", "main.py"]
 
