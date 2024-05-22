@@ -1,2 +1,2 @@
 # Run the data processing script once a day at 1 PM
-0 13 * * * root python3 /main.py >> /var/log/cron.log 2>&1
+0 13 * * * python3 main.py >> /var/log/cron.log 2>&1

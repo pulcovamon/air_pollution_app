@@ -8,9 +8,11 @@ RUN pip install --upgrade pip
 
 RUN pip install -r requirements.txt
 
-EXPOSE 5050
+EXPOSE 8000
 
 ENV DATABASE_URL="sqlite:///./db/air_quality.db"
 
-CMD ["python", "main.py"]
+VOLUME [ "/app" ]
+
+CMD ["fastapi", "run", "main.py", "--port", "8000", "--reload"]
 

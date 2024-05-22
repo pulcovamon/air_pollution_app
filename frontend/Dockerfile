@@ -1,21 +1,14 @@
-FROM node:18 AS build
+FROM node:18-alpine
 
 WORKDIR /app
 
-COPY . /app
+COPY air-pollution /app
 
 RUN npm install
 
-RUN npm run build
-
-# Stage 2: Serve the react app using nginx
-FROM nginx:alpine
-
-# Copy the build output to the nginx html directory
-COPY --from=build /app/build /usr/share/nginx/html
-
-# Expose port 80
 EXPOSE 80
 
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+RUN npm run build
+RUN npm install -g serve
+
+CMD serve -s build -l 3000
