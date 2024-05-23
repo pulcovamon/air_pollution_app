@@ -2,16 +2,19 @@ from datetime import datetime, timedelta
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 
 from .db_connection import engine, get_db
 from . import models
 
 app = APIRouter()
 
-@app.get("/cities", response_model=List[models.City])
+@app.get("/cities")
 async def read_cities(db: Session = Depends(get_db)):
     cities = db.query(models.City).all()
-    return cities
+    json_compatible_item_data = jsonable_encoder(cities)
+    return JSONResponse(content=json_compatible_item_data)
 
 @app.get("/air_quality_index/{city_id}", response_model=List[models.AirQualityIndex])
 async def read_air_quality_index(city_id: int, db: Session = Depends(get_db)):
