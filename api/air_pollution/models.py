@@ -1,85 +1,61 @@
+from sqlmodel import Field, SQLModel
 from typing import Optional
-from sqlalchemy import ForeignKey, Integer, String, DateTime, Numeric
-from sqlalchemy.orm import Mapped, mapped_column
 from datetime import datetime
 
-from .db_connection import Base
-
-"""
-Specification of models for using database.
-"""
-
-class City(Base):
+class City(SQLModel, table=True):
     """
     Model of city with coordinates.
     """
-    __tablename__ = "city"
+    id: Optional[int] = Field(default=None, primary_key=True)
+    name: str
+    longitude: float
+    latitude: float
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    name: Mapped[str] = mapped_column(String(30))
-    longitude: Mapped[float] = mapped_column(Numeric(6, 4))
-    latitude: Mapped[float] = mapped_column(Numeric(6, 4))
-
-
-class Category(Base):
+class Category(SQLModel, table=True):
     """
     Model of air quality category for each pollutant.
     """
-    __tablename__ = "category"
+    id: Optional[int] = Field(default=None, primary_key=True)
+    quality: str
+    pollutant: str
+    min: Optional[int] = None
+    max: Optional[int] = None
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    quality: Mapped[str] = mapped_column(String(10))
-    pollutant: Mapped[str] = mapped_column(String(5))
-    min: Mapped[Optional[int]] = mapped_column()
-    max: Mapped[Optional[int]] = mapped_column()
-
-
-class AirQualityIndex(Base):
+class AirQualityIndex(SQLModel, table=True):
     """
     Model of AQI - air quality index, which is calculated from amount of pollutants.
     """
-    __tablename__ = "air_quality_index"
+    id: Optional[int] = Field(default=None, primary_key=True)
+    city_id: int = Field(foreign_key="city.id")
+    value: float
+    date: datetime
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    city_id: Mapped[int] = mapped_column(ForeignKey("city.id"))
-    value: Mapped[float] = mapped_column(Numeric(4, 1))
-    date: Mapped[datetime] = mapped_column(DateTime)
-
-
-class Parameter(Base):
+class Parameter(SQLModel, table=True):
     """
     Model of pollutant parameter - amount of particular pollutant in μg/m^3.
     """
-    __tablename__ = "parameter"
+    id: Optional[int] = Field(default=None, primary_key=True)
+    pollutant: str
+    city_id: int = Field(foreign_key="city.id")
+    value: float
+    category_id: int = Field(foreign_key="category.id")
+    date: datetime
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    pollutant: Mapped[str] = mapped_column(String(5))
-    city_id: Mapped[int] = mapped_column(ForeignKey("city.id"))
-    value: Mapped[float] = mapped_column(Numeric(4, 1))
-    category_id: Mapped[int] = mapped_column(ForeignKey("category.id"))
-    date: Mapped[datetime] = mapped_column(DateTime)
-
-
-class Statistics(Base):
+class Statistics(SQLModel, table=True):
     """
     Model of basic statistical parameters of AQI - calculated from 30 days values.
     """
-    __tablename__ = "statistics"
+    id: Optional[int] = Field(default=None, primary_key=True)
+    city_id: int = Field(foreign_key="city.id")
+    month_avg: float
+    month_var: float
+    month_min: float
+    month_max: float
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    city_id: Mapped[int] = mapped_column(ForeignKey("city.id"))
-    month_avg: Mapped[float] = mapped_column(Numeric(4, 1))
-    month_var: Mapped[float] = mapped_column(Numeric(4, 1))
-    month_min: Mapped[float] = mapped_column(Numeric(4, 1))
-    month_max: Mapped[float] = mapped_column(Numeric(4, 1))
-
-
-class CityComparison(Base):
+class CityComparison(SQLModel, table=True):
     """
     Model of order of cities in air quality - for each pollutant.
     """
-    __tablename__ = "city_comparison"
-
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    city_id: Mapped[int] = mapped_column(ForeignKey("city.id"))
-    index: Mapped[int] = mapped_column()
+    id: Optional[int] = Field(default=None, primary_key=True)
+    city_id: int = Field(foreign_key="city.id")
+    index: int
