@@ -127,7 +127,7 @@ class DatabaseFiller:
         """
         for city in self.cities:
             lon, lat = self.request_longitute_latitude(city)
-            print(f"pridavam {city}")
+            print(f"pridavam {city}, {lon}, {lat}")
             self.session.add(City(name=city, longitude=lon, latitude=lat))
 
     def rollback(self):

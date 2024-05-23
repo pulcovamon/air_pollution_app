@@ -56,7 +56,7 @@ class Parameter(Base):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     pollutant: Mapped[str] = mapped_column(String(5))
     city_id: Mapped[int] = mapped_column(ForeignKey("city.id"))
-    value: Mapped[float] = mapped_column(Numeric(4, 1))
+    value: Mapped[float] = mapped_column(Numeric(6, 1))
     category_id: Mapped[int] = mapped_column(ForeignKey("category.id"))
     date: Mapped[datetime] = mapped_column(DateTime)
 
