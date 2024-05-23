@@ -5,3 +5,4 @@ node_modules
 .npm
 *.sqlite3
 *.db
+db_data/*
