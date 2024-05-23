@@ -5,10 +5,8 @@ from sqlalchemy.ext.declarative import declarative_base
 Script for database specification.
 """
 
-DATABASE_URL = "mysql+mysqlconnector://user:pass@0.0.0.0:3306/AirQuality"
+DATABASE_URL = "mysql+mysqlconnector://user:pass@db:3306/AirQuality"
 
-engine = create_engine(
-    DATABASE_URL, connect_args={"check_same_thread": False}
-)
+engine = create_engine(DATABASE_URL)
 
 Base = declarative_base()

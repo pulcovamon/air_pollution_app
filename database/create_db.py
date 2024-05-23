@@ -127,6 +127,7 @@ class DatabaseFiller:
         """
         for city in self.cities:
             lon, lat = self.request_longitute_latitude(city)
+            print(f"pridavam {city}")
             self.session.add(City(name=city, longitude=lon, latitude=lat))
 
     def rollback(self):
@@ -145,13 +146,16 @@ class DatabaseFiller:
 
 if __name__ == "__main__":
     # reinitialize database
+    print("mazu")
     Base.metadata.drop_all(engine)
+    print("vytvarim")
     Base.metadata.create_all(engine)
     
     filler = DatabaseFiller()
     try:
         filler.fill_all_tables()
         filler.commit_and_close()
+        print("vytvoreno")
     except Exception:
         filler.rollback()
         traceback.print_exc()
