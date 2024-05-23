@@ -10,17 +10,15 @@ app = APIRouter()
 
 @app.get("/cities", response_model=List[models.City])
 async def read_cities(db: Session = Depends(get_db)):
-    cities = db.query(models.City)
+    cities = db.query(models.City).all()
     return cities
 
 @app.get("/air_quality_index/{city_id}", response_model=List[models.AirQualityIndex])
 async def read_air_quality_index(city_id: int, db: Session = Depends(get_db)):
-    end_date = datetime.utcnow()
-    start_date = end_date - timedelta(days=30)
+    start_date = datetime.now() - timedelta(days=30)
     aqi = db.query(models.AirQualityIndex).filter(
         models.AirQualityIndex.city_id == city_id,
         models.AirQualityIndex.date >= start_date,
-        models.AirQualityIndex.date <= end_date
     ).all()
     if not aqi:
         raise HTTPException(status_code=404, detail="Air quality index not found")
@@ -28,12 +26,10 @@ async def read_air_quality_index(city_id: int, db: Session = Depends(get_db)):
 
 @app.get("/air_quality_parameters/{city_id}", response_model=List[models.Parameter])
 async def read_air_quality_parameters(city_id: int, db: Session = Depends(get_db)):
-    end_date = datetime.utcnow()
-    start_date = end_date - timedelta(days=30)
+    start_date = datetime.now() - timedelta(days=30)
     params = db.query(models.Parameter).filter(
         models.Parameter.city_id == city_id,
         models.Parameter.date >= start_date,
-        models.Parameter.date <= end_date
     ).all()
     if not params:
         raise HTTPException(status_code=404, detail="Air quality parameters not found")
