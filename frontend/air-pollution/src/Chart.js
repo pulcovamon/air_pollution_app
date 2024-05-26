@@ -4,7 +4,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const ChartComponent = ({ data, title }) => {
+export default function Chart({ data, title }) {
   const chartData = {
     labels: data.map(entry => new Date(entry.date).toLocaleDateString()),
     datasets: [
@@ -19,6 +19,7 @@ const ChartComponent = ({ data, title }) => {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: 'top',
@@ -28,13 +29,31 @@ const ChartComponent = ({ data, title }) => {
         text: title,
       },
     },
+    layout: {
+      padding: {
+        left: 10,
+        right: 10,
+        top: 10,
+        bottom: 10,
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          display: true,
+        },
+      },
+      y: {
+        ticks: {
+          display: true,
+        },
+      },
+    },
   };
 
   return (
-    <div>
+    <div style={{ width: '50%', height: "50%", margin: 'auto' }}>
       <Line data={chartData} options={options} />
     </div>
   );
-};
-
-export default ChartComponent;
+}
