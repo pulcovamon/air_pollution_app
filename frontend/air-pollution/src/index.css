@@ -15,174 +15,90 @@ body {
   justify-content: flex-start;
   font-size: calc(10px + 2vmin);
   color: blanchedalmond;
-  margin-top: 3rem; /* Adjust this if you have a fixed navbar */
-}
-
-.title {
-  text-align: center;
-  text-transform: uppercase;
-  padding-bottom: 5px;
-}
-
-h1 {
-  padding: 0;
-  margin: 5px;
-  font-family: "Raleway", sans-serif;
-  font-weight: 300;
-  font-size: 40px;
-  color: aquamarine;
-  transition: all 0.4s ease;
-}
-
-h2 {
-  padding: 0;
-  margin: 5px;
-  font-family: "Raleway", sans-serif;
-  font-weight: 300;
-  font-size: 26px;
-  color: blanchedalmond;
+  padding-top: 60px; /* Adjust to ensure content is below navbar */
 }
 
 .navbar {
-  position: fixed;
   width: 100%;
-  top: 0;
-  left: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
   background-color: #343a44;
   color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
   z-index: 1000;
 }
 
-.navbar-title {
-  font-size: 1.5rem;
+.navbar button {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 0.5rem;
+  font-size: 1rem;
 }
 
-.navbar-dropdown {
-  display: flex;
-  align-items: center;
+.navbar button:hover {
+  text-decoration: underline;
 }
 
-.navbar-select {
+select {
   padding: 0.5rem;
   font-size: 1rem;
   border-radius: 5px;
   border: none;
   background-color: #40454e;
   color: #fff;
-  margin-left: 1rem;
+  margin-top: 20px;
 }
 
-.navbar-select option {
-  background-color: #40454e;
-  color: #fff;
+.chart-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #3b3f47;
+  border-radius: 8px;
 }
 
-.main-content {
-  width: 100%;
-  padding-top: 4rem; /* Ensure this matches the height of your navbar */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* Reset default styles for the unordered list */
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
 }
 
-.header {
-  position: fixed;
-  width: 100%;
-  top: 0;
-  left: 0;
-  background-color: transparent;
-  z-index: var(--z-fixed);
+/* Define styles for each list item */
+ul li {
+  float: left;
 }
 
-.nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-  height: var(--header-height);
-  margin: 1rem;
-}
-
-.nav__logo {
-  color: var(--first-color);
-  transition: color 0.4s;
-  font-size: var(--h2-font-size);
-  font-family: var(--second-font);
-}
-
-.nav__toggle,
-.nav__close {
-  font-size: 1.5rem;
-  color: var(--title-color);
-  cursor: pointer;
-}
-
-.nav__cta {
-  background-color: var(--first-color);
-  color: var(--title-color);
+/* Define styles for links and buttons within list items */
+ul li a, ul li button {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  background: none;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
 }
 
-.nav__list {
-  display: flex;
-  flex-direction: column;
-  row-gap: 2.5rem;
+/* Change background color on hover */
+ul li a:hover, ul li button:hover {
+  background-color: #111;
 }
 
-.nav__link {
-  color: var(--title-color);
-  font-weight: var(--font-semi-bold);
-  transition: color 0.4s;
-}
-
-.nav__link:hover {
-  color: var(--first-color);
-}
-
-.nav__close {
-  position: absolute;
-  top: 1rem;
-  right: 1.5rem;
-}
-
-.show-menu {
-  right: 0;
-}
-
-@media screen and (max-width: 1150px) {
-  .nav__menu {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    background-color: hsla(0, 0%, 6%, 0.2);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    width: 80%;
-    height: 100%;
-    padding: 6rem 3rem 0;
-    transition: right 0.4s;
-  }
-}
-
-@media screen and (min-width: 1150px) {
-  .nav {
-    height: calc(var(--header-height) + 1rem);
-  }
-  .nav__toggle,
-  .nav__close {
-    display: none;
-  }
-
-  .nav__list {
-    flex-direction: row;
-    column-gap: 2.5rem;
-  }
+/* Style the first item (title) differently */
+ul li:first-child {
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding-right: 1rem;
 }

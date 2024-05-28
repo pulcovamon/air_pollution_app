@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Chart from "./Chart";
 import { fetchAirQualityIndex } from './fetch';
 
-export default function Parameters({ selectedCity }) {
+export default function AQI({ selectedCity }) {
     const [airQualityIndex, setAirQualityIndex] = useState([]);
     useEffect(() => {
         if (selectedCity) {
@@ -20,7 +20,7 @@ export default function Parameters({ selectedCity }) {
       }, [selectedCity]);
     return (
         <div>
-            <Chart data={airQualityIndex} title={ `Air Quality Index in ${selectedCity}` } />;
+            <Chart data={airQualityIndex} title={ `Air Quality Index in ${selectedCity}` } />
         </div>
     );
 }

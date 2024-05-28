@@ -4,7 +4,12 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-export default function Chart({ data, title }) {
+export default function Chart({ data = [], title = "Chart" }) {
+  // Check if data is empty
+  if (!data.length) {
+    return <div>No data available</div>;
+  }
+
   const chartData = {
     labels: data.map(entry => new Date(entry.date).toLocaleDateString()),
     datasets: [
@@ -52,7 +57,7 @@ export default function Chart({ data, title }) {
   };
 
   return (
-    <div style={{ width: '50%', height: "50%", margin: 'auto' }}>
+    <div style={{ width: '100%', height: '400px', margin: 'auto' }}>
       <Line data={chartData} options={options} />
     </div>
   );
