@@ -14,7 +14,6 @@ export default function Chart({ data = [], title = "Chart" }) {
     labels: data.map(entry => new Date(entry.date).toLocaleDateString()),
     datasets: [
       {
-        label: title,
         data: data.map(entry => entry.value),
         borderColor: 'rgba(50,150,150,1)',
         backgroundColor: 'rgba(50,150,150,0.2)',
@@ -26,12 +25,6 @@ export default function Chart({ data = [], title = "Chart" }) {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: {
-        position: 'top',
-        labels: {
-          color: 'white', // Barva textu legendy
-        },
-      },
       title: {
         display: true,
         text: title,
