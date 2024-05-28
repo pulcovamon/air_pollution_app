@@ -56,7 +56,7 @@ export default function Parameters({ selectedCity }) {
             <li key={pollutant}>
                 <Chart
                     data={data}
-                    title={`Amount of ${convertPollutantName(pollutant)} in m³`}
+                    title={`Amount of ${convertPollutantName(pollutant)} in μg/m³`}
                 />
             </li>
         );
