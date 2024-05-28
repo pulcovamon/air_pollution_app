@@ -14,7 +14,7 @@ body {
   align-items: center;
   justify-content: flex-start;
   font-size: calc(10px + 2vmin);
-  color: blanchedalmond;
+  color: #fff;
   padding-top: 60px; /* Adjust to ensure content is below navbar */
 }
 
@@ -43,6 +43,16 @@ body {
 
 .navbar button:hover {
   text-decoration: underline;
+}
+
+a {
+  color: aqua;
+}
+
+p {
+  text-align: justify;
+  color: #fff;
+  font-size: 1.5rem;
 }
 
 select {
