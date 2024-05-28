@@ -20,7 +20,7 @@ export default function AQI({ selectedCity }) {
       }, [selectedCity]);
     return (
         <div>
-            <Chart data={airQualityIndex} title={ `Air Quality Index in ${selectedCity}` } />
+            <Chart data={airQualityIndex} title={ "Air Quality Index" } />
         </div>
     );
 }

@@ -42,6 +42,7 @@ export default function App() {
   return (
     <div className='App'>
       <Navbar handleSelection={handleScreenSelection} />
+      <br />
       <CitySelect handleSelection={handleCitySelection} cities={cities} />
       <div className="chart-container">
         {selectedScreen === 'AQI' && <AQI selectedCity={selectedCity} />}

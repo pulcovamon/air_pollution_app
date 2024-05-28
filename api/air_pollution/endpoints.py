@@ -27,11 +27,12 @@ async def read_air_quality_index(city_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Air quality index not found")
     return aqi
 
-@app.get("/air_quality_parameters/{city_id}", response_model=List[models.Parameter])
-async def read_air_quality_parameters(city_id: int, db: Session = Depends(get_db)):
+@app.get("/air_quality_parameters/{city_id}/{parameter}", response_model=List[models.Parameter])
+async def read_air_quality_parameters(city_id: int, parameter: str, db: Session = Depends(get_db)):
     start_date = datetime.now() - timedelta(days=30)
     params = db.query(models.Parameter).filter(
         models.Parameter.city_id == city_id,
+        models.Parameter.pollutant == parameter,
         models.Parameter.date >= start_date,
     ).all()
     if not params:

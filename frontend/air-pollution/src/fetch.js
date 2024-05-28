@@ -14,8 +14,8 @@ export async function fetchCities() {
     return await response.json();
   }
   
-  export async function fetchAirQualityParameters(cityId) {
-    const response = await fetch(`http://localhost:8000/air_pollution_api/air_quality_parameters/${cityId}`);
+  export async function fetchAirQualityParameters(cityId, parameter) {
+    const response = await fetch(`http://localhost:8000/air_pollution_api/air_quality_parameters/${cityId}/${parameter}`);
     if (!response.ok) {
       throw new Error(`Air quality parameters in city with ID ${cityId} is not avaliable.`);
     }

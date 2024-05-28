@@ -46,13 +46,17 @@ body {
 }
 
 select {
-  padding: 0.5rem;
-  font-size: 1rem;
-  border-radius: 5px;
+  padding: 1rem;
+  font-size: 2rem;
+  border-radius: 10px;
   border: none;
-  background-color: #40454e;
-  color: #fff;
-  margin-top: 20px;
+  background-color: #3e4249;
+  color: white;
+  margin-top: 50px;
+}
+
+ul {
+  list-style-type: none;
 }
 
 .chart-container {
@@ -65,21 +69,20 @@ select {
 }
 
 /* Reset default styles for the unordered list */
-ul {
+.navbar ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #333;
 }
 
 /* Define styles for each list item */
-ul li {
+.navbar ul li {
   float: left;
 }
 
 /* Define styles for links and buttons within list items */
-ul li a, ul li button {
+.navbar ul li a, .navbar ul li button {
   display: block;
   color: white;
   text-align: center;
@@ -92,12 +95,12 @@ ul li a, ul li button {
 }
 
 /* Change background color on hover */
-ul li a:hover, ul li button:hover {
+.navbar ul li a:hover, .navbar ul li button:hover {
   background-color: #111;
 }
 
 /* Style the first item (title) differently */
-ul li:first-child {
+.navbar ul li:first-child {
   font-size: 1.5rem;
   font-weight: bold;
   padding-right: 1rem;

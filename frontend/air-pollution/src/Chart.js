@@ -16,8 +16,8 @@ export default function Chart({ data = [], title = "Chart" }) {
       {
         label: title,
         data: data.map(entry => entry.value),
-        borderColor: 'rgba(75,192,192,1)',
-        backgroundColor: 'rgba(75,192,192,0.2)',
+        borderColor: 'rgba(50,150,150,1)',
+        backgroundColor: 'rgba(50,150,150,0.2)',
       },
     ],
   };
@@ -28,10 +28,17 @@ export default function Chart({ data = [], title = "Chart" }) {
     plugins: {
       legend: {
         position: 'top',
+        labels: {
+          color: 'white', // Barva textu legendy
+        },
       },
       title: {
         display: true,
         text: title,
+        font: {
+          size: 20,
+        },
+        color: 'white',
       },
     },
     layout: {
@@ -46,11 +53,19 @@ export default function Chart({ data = [], title = "Chart" }) {
       x: {
         ticks: {
           display: true,
+          color: 'white',
+          font: {
+            size: 12,
+          },
         },
       },
       y: {
         ticks: {
           display: true,
+          color: 'white',
+          font: {
+            size: 12,
+          },
         },
       },
     },
