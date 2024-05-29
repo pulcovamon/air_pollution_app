@@ -26,7 +26,7 @@ class DatabaseFiller:
         self.session = Session()
         self.uri = "http://api.openweathermap.org"
         self.api_key = os.getenv("API_KEY")
-        self.cities = ["Prague", "London", "Paris", "Berlin", "Rome"]
+        self.cities = ["Prague", "London", "Paris", "Berlin", "Rome", "Tokyo", "Peking", "Seoul", "Dubai", "Singapore", ]
 
     def fill_all_tables(self) -> None:
         """
@@ -46,7 +46,7 @@ class DatabaseFiller:
         Returns:
             Tuple(flaot, float): longitude and latitude
         """
-        uri = f"{self.uri}/geo/1.0/direct?q={city_name}&limit=5&appid={self.api_key}"
+        uri = f"{self.uri}/geo/1.0/direct?q={city_name}&limit=1&appid={self.api_key}"
         response = requests.get(uri)
         if not response.ok:
             response.raise_for_status()

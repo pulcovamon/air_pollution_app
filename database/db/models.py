@@ -18,8 +18,8 @@ class City(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(30))
-    longitude: Mapped[float] = mapped_column(Numeric(6, 4))
-    latitude: Mapped[float] = mapped_column(Numeric(6, 4))
+    longitude: Mapped[float] = mapped_column(Numeric(7, 4))
+    latitude: Mapped[float] = mapped_column(Numeric(7, 4))
 
 
 class Category(Base):
