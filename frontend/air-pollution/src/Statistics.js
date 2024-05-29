@@ -9,7 +9,7 @@ export default function Statistics({ selectedCity }) {
             try {
                 const comparisonData = await fetchCityComparison();
                 setComparison(comparisonData);
-            } catch {
+            } catch (error) {
                 console.error("Error fetching city comparison:", error);
             }
         }
