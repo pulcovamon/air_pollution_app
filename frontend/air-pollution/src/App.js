@@ -4,11 +4,12 @@ import Navbar from './Navbar';
 import AQI from './AQI';
 import Parameters from './Parameters';
 import CitySelect from './Cities';
+import Home from './Home';
 
 export default function App() {
   const [cities, setCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState(null);
-  const [selectedScreen, setSelectedScreen] = useState("AQI");
+  const [selectedScreen, setSelectedScreen] = useState("Home");
 
   useEffect(() => {
     async function getCities() {
@@ -45,8 +46,10 @@ export default function App() {
       <br />
       <CitySelect handleSelection={handleCitySelection} cities={cities} />
       <div className="chart-container">
+        {selectedScreen === 'Home' && <Home />}
         {selectedScreen === 'AQI' && <AQI selectedCity={selectedCity} />}
         {selectedScreen === 'Parameters' && <Parameters selectedCity={selectedCity} />}
+        {selectedScreen === 'Statistics' && <Statistics selectedCity={selectedCity} />}
       </div>
     </div>
   );

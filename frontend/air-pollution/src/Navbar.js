@@ -5,7 +5,9 @@ export default function Navbar({ handleSelection }) {
     <div className="navbar">
       <ul>
         <li>
+        <button onClick={() => handleSelection("home")}>
             Air Quality Monitoring
+          </button>
         </li>
         <li>
           <button onClick={() => handleSelection("AQI")}>
@@ -15,6 +17,16 @@ export default function Navbar({ handleSelection }) {
         <li>
           <button onClick={() => handleSelection("Parameters")}>
             Air Quality Parameters
+          </button>
+        </li>
+        <li>
+          <button onClick={() => handleSelection("Statistics")}>
+            Statistics
+          </button>
+        </li>
+        <li>
+          <button onClick={() => handleSelection("Comparison")}>
+            Cities comparison
           </button>
         </li>
       </ul>
