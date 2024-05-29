@@ -5,6 +5,7 @@ import AQI from './AQI';
 import Parameters from './Parameters';
 import CitySelect from './Cities';
 import Home from './Home';
+import Statistics from './Statistics';
 
 export default function App() {
   const [cities, setCities] = useState([]);
