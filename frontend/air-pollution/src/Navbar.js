@@ -24,11 +24,6 @@ export default function Navbar({ handleSelection }) {
             Statistics
           </button>
         </li>
-        <li>
-          <button onClick={() => handleSelection("Comparison")}>
-            Cities comparison
-          </button>
-        </li>
       </ul>
     </div>
   );
