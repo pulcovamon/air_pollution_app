@@ -2,7 +2,7 @@ from typing import Optional
 from sqlalchemy import ForeignKey, Integer, String, DateTime, Numeric
 from sqlalchemy.orm import Mapped, mapped_column
 from datetime import datetime
-from sqlalchemy.ext.declarative import DeclarativeBase
+from sqlalchemy.orm import DeclarativeBase
 
 """
 Specification of models for using database.
@@ -20,8 +20,8 @@ class City(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(30))
-    longitude: Mapped[float] = mapped_column(Numeric(6, 4))
-    latitude: Mapped[float] = mapped_column(Numeric(6, 4))
+    longitude: Mapped[float] = mapped_column(Numeric(7, 4))
+    latitude: Mapped[float] = mapped_column(Numeric(7, 4))
 
 
 class Category(Base):

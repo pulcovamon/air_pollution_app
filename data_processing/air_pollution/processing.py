@@ -1,5 +1,5 @@
 import pandas as pd
-from sqlalchemy import select
+from sqlalchemy import select, and_
 from datetime import datetime, timedelta
 from sqlalchemy.orm.exc import NoResultFound
 
@@ -42,14 +42,15 @@ class Data:
         Returns:
             str: category id
         """
-        category = self.session.scalars(
+        categories = self.session.scalars(
             select(Category).where(Category.pollutant==pollutant)
             )
         for category in categories:
-            category = self.session.get(Category, id=category)
             if category.max and value < category.max:
                 return category.id
-        return category.id
+            elif not category.max and value >= category.min:
+                return category.id
+        raise ValueError(f"Category for pollutant {pollutant} and value {value} was not found!")
 
     def save_parameters_into_db(self, city: City, parameters: dict, date: int) -> None:
         """
@@ -68,7 +69,7 @@ class Data:
 
         for _, row in df.iterrows():
             self.session.add(
-                parameter = Parameter(
+                Parameter(
                 pollutant=row['pollutant'],
                 city_id=row['city_id'],
                 value=row['value'],
@@ -85,50 +86,42 @@ class Data:
         Args:
             city (City): city object
         """
-        end_date = datetime.utcfromtimestamp(datetime.now())
-        start_date = datetime.utcfromtimestamp(datetime.now() - timedelta(days=30))
-        query = self.session.query(AirQualityIndex).join(City).filter(
-            and_(
-                AirQualityIndex.city_id == City.id,
-                AirQualityIndex.date >= start_date,
-                AirQualityIndex.date <= end_date
-            )
-        )
-        df = pd.DataFrame([{"aqi": aqi.value} for aqi in query.all()])
+        start_date = datetime.now() - timedelta(days=30)
+        values = self.session.scalars(
+            select(AirQualityIndex).where(AirQualityIndex.city_id==city.id).where(AirQualityIndex.date>=start_date)
+            ).all()
+
+        df = pd.DataFrame([{"aqi": float(aqi.value)} for aqi in values])
         if not df.empty:
             try:
-                record = session.query(Statistics).filter(Statistics.city_id == city.id).one()
-                record.month_avg = df["value"].mean()
-                record.month_var = df["value"].var()
-                record.month_min = df["value"].min()
-                record.month_max = df["value"].max()
-                self.session.merge(existing_record)
+                record = self.session.query(Statistics).filter(Statistics.city_id == city.id).one()
+                record.month_avg = df["aqi"].mean()
+                record.month_var = df["aqi"].var()
+                record.month_min = df["aqi"].min()
+                record.month_max = df["aqi"].max()
+                self.session.merge(record)
             except NoResultFound:
                 self.session.add(Statistics(
                     city_id = city.id,
-                    month_avg = df["value"].mean(),
-                    month_var = df["value"].var(),
-                    month_min = df["value"].min(),
-                    month_max = df["value"].max()
+                    month_avg = df["aqi"].mean(),
+                    month_var = df["aqi"].var(),
+                    month_min = df["aqi"].min(),
+                    month_max = df["aqi"].max()
                 ))
-            session.commit()
+            self.session.commit()
 
     def calculate_and_save_city_comparison(self) -> None:
         """
         Calculate order of cities ordered by AQI (air quality index).
         """
-        city_df = pd.read_sql(self.session.query(City).statement, session.bind)
-        aqi_df = pd.read_sql(self.session.query(AirQualityIndex).statement, session.bind)
-        aqi_df['date'] = pd.to_datetime(aqi_df['date'])
-        latest_aqi_df = aqi_df.sort_values(by='date', ascending=False).groupby('city_id').first().reset_index()
-        merged_df = pd.merge(latest_aqi_df, city_df, left_on='city_id', right_on='id', suffixes=('_aqi', '_city'))
-        mean_aqi_df = merged_df.groupby('name')['value'].mean().reset_index()
-        sorted_cities = mean_aqi_df.sort_values(by='value').reset_index(drop=True)
-        sorted_cities['index'] = sorted_cities.index + 1
-        for index, row in sorted_cities.iterrows():
-            self.session.add(CityComparison(
-                city_id = row['name'],
-                index = row['index']
-                )
-            )
-        self.session.commit()
+        statistics = self.session.query(Statistics).all()
+        if statistics:
+            statistics = {
+                "id": [item.city_id for item in statistics],
+                "mean": [item.month_avg for item in statistics]
+                }
+            df = pd.DataFrame(statistics)
+            df = df_sorted = df.sort_values(by='mean', ascending=True)
+            df["index"] = [i+1 for i in range(len(df["mean"]))]
+            print(df)
+        
