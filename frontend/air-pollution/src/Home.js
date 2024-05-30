@@ -11,9 +11,10 @@ export default function Home() {
                 Origin of data is <a href="https://openweathermap.org/api/air-pollution">Open Weather - Air Pollution API</a>.
             </p>
             <p>
-                If you want, you can use API instead of this frontend:
+                If you want, you can use API instead of this frontend: 
                 <a href="http://0.0.0.0:8000/docs">API</a>.
-                There is also web documentation of this app:
+                <br />
+                There is also web documentation of this app: 
                 <a href="#">MKDocs</a>.
             </p>
             <p>
