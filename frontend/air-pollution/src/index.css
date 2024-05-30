@@ -76,9 +76,9 @@ ul {
   padding: 20px;
   background-color: #3b3f47;
   border-radius: 8px;
+  margin-top: 5%;
 }
 
-/* Reset default styles for the unordered list */
 .navbar ul {
   list-style-type: none;
   margin: 0;
@@ -86,12 +86,10 @@ ul {
   overflow: hidden;
 }
 
-/* Define styles for each list item */
 .navbar ul li {
   float: left;
 }
 
-/* Define styles for links and buttons within list items */
 .navbar ul li a, .navbar ul li button {
   display: block;
   color: white;
@@ -104,14 +102,36 @@ ul {
   font-size: 1rem;
 }
 
-/* Change background color on hover */
 .navbar ul li a:hover, .navbar ul li button:hover {
   background-color: #111;
 }
 
-/* Style the first item (title) differently */
 .navbar ul li:first-child {
   font-size: 1.5rem;
   font-weight: bold;
   padding-right: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 18px;
+  text-align: center;
+}
+
+th {
+  background-color: #282c34;
+  color: white;
+  padding: 12px;
+  border-bottom: 2px solid #ddd;
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+  background-color: #2e313b;
 }

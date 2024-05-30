@@ -66,7 +66,6 @@ export default function Statistics({ selectedCity }) {
     return (
         <div className="home">
             {statisticsList}
-            <br />
             <h4>Order of cities</h4>
             <table>
                 <tr>
