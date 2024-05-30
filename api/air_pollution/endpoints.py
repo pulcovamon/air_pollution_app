@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 from typing import List
 from fastapi.encoders import jsonable_encoder
@@ -46,7 +47,19 @@ async def read_statistics(city_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Statistics not found")
     return statistics
 
-@app.get("/city_comparison", response_model=List[models.CityComparison])
+@app.get("/city_comparison")
 async def read_city_comparison(db: Session = Depends(get_db)):
-    comparison = db.query(models.CityComparison).all()
-    return comparison
+    comparisons = db.query(models.CityComparison).all()
+    results = []
+    for comparison in comparisons:
+        city = db.scalars(select(models.City).where(models.City.id==comparison.city_id)).one()
+        statistics = db.scalars(select(models.Statistics).where(models.Statistics.city_id==comparison.city_id)).one()
+        result = {
+            "id": comparison.id,
+            "city_id": comparison.city_id,
+            "index": comparison.index,
+            "city_name": None if not city else city.name,
+            "mean": None if not statistics else statistics.month_avg
+        }
+        results.append(result)
+    return results
