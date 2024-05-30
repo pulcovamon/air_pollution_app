@@ -30,9 +30,9 @@ export default function Statistics({ selectedCity }) {
       }, [selectedCity]);
     const statisticsList = (
         <div>
-            <h2>
+            <h4>
                 Statistical parameters of AQI in {selectedCity.name} (last 30 days)
-            </h2>
+            </h4>
             <ul>
                 <li>
                     Average AQI: <b>{statistics.month_avg}</b>
@@ -50,18 +50,32 @@ export default function Statistics({ selectedCity }) {
         </div>
     )
     const comparisonList = comparison.map((city) => {
-        const cityName = city.name;
-        const index = city.index;
-        const aqi = city.aqi;
+        if (city) {
+            return(
+                <tr>
+                    <td>{city.index}</td>
+                    <td>{city.city_name}</td>
+                    <td>{city.mean}</td>
+                </tr>
+            )
+        }
+        return (
+            <tr>No data available at this moment</tr>
+        )
     })
     return (
         <div className="home">
-            <h2>Order of cities</h2>
-            <ul>
-                <li></li>
-            </ul>
-            <br />
             {statisticsList}
+            <br />
+            <h4>Order of cities</h4>
+            <table>
+                <tr>
+                    <th>Index</th>
+                    <th>City</th>
+                    <th>AQI</th>
+                </tr>
+                {comparisonList}
+            </table>
         </div>
     )
 }
