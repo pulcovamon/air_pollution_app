@@ -60,6 +60,7 @@ export default function Chart({ data = [], title = "Chart" }) {
             size: 12,
           },
         },
+        beginAtZero: true,
       },
     },
   };
