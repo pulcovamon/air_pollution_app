@@ -28,17 +28,30 @@ async def read_air_quality_index(city_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Air quality index not found")
     return aqi
 
-@app.get("/air_quality_parameters/{city_id}/{parameter}", response_model=List[models.Parameter])
+@app.get("/air_quality_parameters/{city_id}/{parameter}")
 async def read_air_quality_parameters(city_id: int, parameter: str, db: Session = Depends(get_db)):
     start_date = datetime.now() - timedelta(days=30)
-    params = db.query(models.Parameter).filter(
+    params = db.query(
+        models.Parameter,
+        models.Category.quality.label("category_name")
+    ).join(
+        models.Category, models.Parameter.category_id == models.Category.id
+    ).filter(
         models.Parameter.city_id == city_id,
         models.Parameter.pollutant == parameter,
         models.Parameter.date >= start_date,
     ).all()
+
     if not params:
         raise HTTPException(status_code=404, detail="Air quality parameters not found")
-    return params
+    response = []
+    for param, category_name in params:
+        param_dict = param.__dict__.copy()
+        param_dict['category_name'] = category_name
+        del param_dict['category_id']
+        response.append(param_dict)
+
+    return response
 
 @app.get("/statistics/{city_id}", response_model=models.Statistics)
 async def read_statistics(city_id: int, db: Session = Depends(get_db)):

@@ -19,7 +19,16 @@ function convertPollutantName(abbreviation) {
         default:
             return abbreviation.toUpperCase();
     }
-};
+}
+
+function Today({ parameters }) {
+    if (parameters && parameters.length > 0) {
+        const parameter = parameters[parameters.length-1];
+        console.log(parameter)
+        return <h4>{`Today: ${parameter.value} μg/m³ - ${parameter.category_name}`}</h4>
+    }
+    return <h4>Today: No data</h4>
+  }
 
 export default function Parameters({ selectedCity }) {
     const [airQualityParameters, setAirQualityParameters] = useState({});
@@ -58,6 +67,7 @@ export default function Parameters({ selectedCity }) {
                     data={data}
                     title={`Amount of ${convertPollutantName(pollutant)} in μg/m³`}
                 />
+                <Today parameters={airQualityParameters[pollutant]} />
             </li>
         );
     });

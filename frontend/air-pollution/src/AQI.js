@@ -3,6 +3,13 @@ import React, { useEffect, useState } from 'react';
 import Chart from "./Chart";
 import { fetchAirQualityIndex } from './fetch';
 
+function Today({ airQualityIndex }) {
+  if (airQualityIndex && airQualityIndex.length > 0) {
+    return <h4>{`Today: ${airQualityIndex[airQualityIndex.length-1].value}`}</h4>
+  }
+  return <h4>Today: No data</h4>
+}
+
 export default function AQI({ selectedCity }) {
     const [airQualityIndex, setAirQualityIndex] = useState([]);
     useEffect(() => {
@@ -31,6 +38,7 @@ export default function AQI({ selectedCity }) {
               <br />
               <b>Source: <a href="https://www.weather.gov/safety/airquality-aqindex">National Weather Service</a></b>
             </p>
+            <Today airQualityIndex={airQualityIndex} />
             <br />
             <Chart data={airQualityIndex} title={ "Air Quality Index" } />
         </div>
