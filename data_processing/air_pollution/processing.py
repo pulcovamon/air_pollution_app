@@ -123,5 +123,11 @@ class Data:
             df = pd.DataFrame(statistics)
             df = df_sorted = df.sort_values(by='mean', ascending=True)
             df["index"] = [i+1 for i in range(len(df["mean"]))]
-            print(df)
+            for _, row in df.iterrows():
+                try:
+                    record = self.session.query(CityComparison).filter(CityComparison.city_id == row["id"]).one()
+                    record.index = row["index"]
+                except NoResultFound:
+                    self.session.add(CityComparison(city_id=row["id"], index=row["index"]))
+            self.session.commit()
         
