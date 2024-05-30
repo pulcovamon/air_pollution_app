@@ -3,7 +3,7 @@ import { fetchCityComparison, fetchStatistics } from "./fetch";
 
 export default function Statistics({ selectedCity }) {
     const [comparison, setComparison] = useState([]);
-    const [statistics, setStatistics] = useState([]);
+    const [statistics, setStatistics] = useState();
     useEffect(() => {
         const getComparison = async () => {
             try {
@@ -28,7 +28,7 @@ export default function Statistics({ selectedCity }) {
           getStatistics();
         }
       }, [selectedCity]);
-    const statisticsList = (
+    const statisticsList = (statistics) ? (
         <div>
             <h4>
                 Statistical parameters of AQI in {selectedCity.name} (last 30 days)
@@ -48,6 +48,8 @@ export default function Statistics({ selectedCity }) {
                 </li>
             </ul>
         </div>
+    ) : (
+        <h4>No data available</h4>
     )
     const comparisonList = comparison.map((city) => {
         if (city) {
