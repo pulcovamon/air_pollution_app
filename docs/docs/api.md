@@ -19,15 +19,16 @@ Returns AQI (air quality index) for a specified city.
 **Response:**
 - List of AQI (air quality index) records for the city.
 
-### GET /air_quality_parameters/{city_id}
+### GET /air_quality_parameters/{city_id}/{parameter}
 
 Returns the air quality parameters (amount of each pollutant) for a specified city.
 
 **Parameters:**
 - `city_id` (int): The ID of the city.
+- `parameter` (str): name of parameter => [co, no3, so3, o3, pm10, pm2_5]
 
 **Response:**
-- List of air quality parameter records for the city.
+- List of records of quantities of the paramter for the city.
 
 ### GET /statistics/{city_id}
 
