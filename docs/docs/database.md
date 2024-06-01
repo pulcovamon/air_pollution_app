@@ -1,6 +1,6 @@
 # Database
 
-The project uses a SQLite database to store data.
+The project uses a MySql database to store data.
 
 ## Models
 
